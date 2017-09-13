@@ -1,8 +1,8 @@
 package bill;
 
 import java.nio.charset.*;
-import java.util.*;
 import junit.framework.*;
+import org.json.*;
 import org.junit.*;
 import org.junit.Test;
 import org.junit.runner.*;
@@ -11,7 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.*;
 import org.springframework.test.web.servlet.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(BillingController.class)
-//@WebAppConfiguration
 public class BillingControllerTest extends TestCase{
 
   @Autowired
@@ -29,12 +28,8 @@ public class BillingControllerTest extends TestCase{
       MediaType.APPLICATION_JSON.getSubtype(),
       Charset.forName("utf8"));
 
-//  @Autowired
-//  private WebApplicationContext webApplicationContext;
-
   @Before
   public void setUp() throws Exception {
-//    this.mockMvc = webAppContextSetup(webApplicationContext).build();
   }
 
   @After
@@ -44,36 +39,24 @@ public class BillingControllerTest extends TestCase{
 
   @Test
   public void testCalculateBill() throws Exception {
-    Request firstOrder = new Request();
-    firstOrder.setCategory("A");
-    firstOrder.setQuantity(1);
+    JSONObject firstOrder = new JSONObject();
+    firstOrder.put("category", "A");
+    firstOrder.put("quantity", 1);
 
-    Request secondOrder = new Request();
-    secondOrder.setCategory("B");
-    secondOrder.setQuantity(1);
+    JSONObject secondOrder = new JSONObject();
+    secondOrder.put("category", "B");
+    firstOrder.put("quantity", 1);
 
-    List<Request> requestList = new ArrayList<>();
-    requestList.add(firstOrder);
-    requestList.add(secondOrder);
-
-    String inputJson = "[{\"quantity\":1,\n" +
-        "  \"category\":\"A\"}, {\"quantity\":1,\n" +
-        "  \"category\":\"B\"}, {\"quantity\":1,\n" +
-        "  \"category\":\"C\"}]";
-
+    JSONArray jsonArray = new JSONArray();
+    jsonArray.put(firstOrder);
+    jsonArray.put(secondOrder);
 
     this.mockMvc.perform(post("/")
         .contentType(contentType)
-        .content(inputJson))
+        .content(jsonArray.toString()))
         .andExpect(status().isOk());
 
     System.out.print("  Test case executed successfully\n");
   }
 
-//  @Test
-//  public void TestStocksController() throws Exception{
-//    this.mockMvc.perform(get("/").accept(MediaType.TEXT_PLAIN))
-//        .andExpect(status().isOk()).andExpect(content().string("CSV File written successfully!!!"));
-//
-//  }
 }
