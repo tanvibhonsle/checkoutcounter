@@ -6,6 +6,7 @@ import org.json.*;
 import org.junit.*;
 import org.junit.Test;
 import org.junit.runner.*;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.autoconfigure.web.servlet.*;
 import org.springframework.http.*;
@@ -20,6 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(BillingController.class)
 public class BillingControllerTest extends TestCase{
+
+  private static final Logger logger = LoggerFactory.getLogger(BillingControllerTest.class);
 
   @Autowired
   private MockMvc mockMvc;
@@ -55,7 +58,7 @@ public class BillingControllerTest extends TestCase{
         .contentType(contentType)
         .content(jsonArray.toString()))
         .andExpect(status().isOk());
-
+    logger.info("Test case executed successfully\n");
     System.out.print("  Test case executed successfully\n");
   }
 
