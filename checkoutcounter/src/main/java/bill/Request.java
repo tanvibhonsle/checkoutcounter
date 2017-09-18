@@ -4,6 +4,7 @@ import javax.validation.constraints.*;
 
 /**
  * Created by tanvi.bhonsle on 11/09/17.
+ * Request of REST API which has category of items and price of those items
  */
 public class Request {
 

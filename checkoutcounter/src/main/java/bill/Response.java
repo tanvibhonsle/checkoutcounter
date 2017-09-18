@@ -4,6 +4,7 @@ import java.util.*;
 
 /**
  * Created by tanvi.bhonsle on 11/09/17.
+ * Response for the REST API
  */
 public class Response {
 
